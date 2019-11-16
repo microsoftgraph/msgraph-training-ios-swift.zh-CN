@@ -16,7 +16,6 @@
 在继续之前，请安装稍后将使用的一些其他依赖项。
 
 - 适用于[iOS 的 Microsoft 身份验证库（MSAL）](https://github.com/AzureAD/microsoft-authentication-library-for-objc) ，用于向 Azure AD 进行身份验证。
-- [目标 C 的 MSAL 身份验证提供程序](https://github.com/microsoftgraph/msgraph-sdk-objc-auth)，用于将 MSAL 与 MICROSOFT Graph SDK 连接。
 - [Microsoft GRAPH SDK For 客观 C](https://github.com/microsoftgraph/msgraph-sdk-objc) ，用于调用 Microsoft graph。
 - [Microsoft Graph 模型 SDK （针对目标 C](https://github.com/microsoftgraph/msgraph-sdk-objc-models) ）对于强类型的对象，表示 Microsoft Graph 资源，如用户或事件。
 
@@ -31,10 +30,9 @@
 1. 打开 Podfile，并在行的`use_frameworks!`后面添加以下行。
 
     ```Ruby
-    pod 'MSAL', '~> 0.3.0'
-    pod 'MSGraphMSALAuthProvider', '~> 0.1.1'
-    pod 'MSGraphClientSDK', ' ~> 0.1.3'
-    pod 'MSGraphClientModels', '~> 0.1.1'
+    pod 'MSAL', '~> 1.0.2'
+    pod 'MSGraphClientSDK', ' ~> 1.0.0'
+    pod 'MSGraphClientModels', '~> 1.3.0'
     ```
 
 1. 保存 Podfile，然后运行以下命令来安装依赖项。
@@ -106,13 +104,13 @@
 
     ![将手动 segue 拖动到 Xcode 中新选项卡栏控制器中的屏幕截图](./images/add-segue.png)
 
-1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedIn`设置为。
+1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedIn`**设置为，** 并将 "**演示文稿**" 设置为全屏。
 
     ![Xcode 中的 "属性" 检查器中的 "标识符" 字段的屏幕截图](./images/set-segue-identifier.png)
 
 1. 选择 "**项目1场景**"，然后选择 "**连接检查器**"。
 1. 在 "已**触发 Segues**" 下，将 "**手动**" 旁边的未填充圆圈拖到情节提要上的 "**登录视图控制器" 中**。 在弹出菜单中选择 "**模式显示**"。
-1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedOut`设置为。
+1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedOut`**设置为，** 并将 "**演示文稿**" 设置为全屏。
 
 ### <a name="create-welcome-page"></a>创建欢迎页面
 

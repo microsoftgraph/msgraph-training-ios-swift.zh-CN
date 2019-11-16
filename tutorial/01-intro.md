@@ -13,7 +13,7 @@
 - [CocoaPods](https://cocoapods.org)
 
 > [!NOTE]
-> 本教程是使用 Xcode 版本10.3 和 CocoaPods 版本1.7.5 编写的。 本指南中的步骤可能适用于其他版本，但尚未经过测试。
+> 本教程是使用 Xcode 版本11.2.1 和 CocoaPods 版本编写的1.8.4 本指南中的步骤可能适用于其他版本，但尚未经过测试。
 
 ## <a name="feedback"></a>反馈
 

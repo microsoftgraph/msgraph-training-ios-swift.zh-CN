@@ -5,7 +5,7 @@
 1. 在名为**AuthSettings**的**GraphTutorial**项目中创建一个新的**属性列表**文件。
 1. 将以下项添加到**根**字典中的文件中。
 
-    | Key | 类型 | 值 |
+    | 键 | 类型 | 值 |
     |-----|------|-------|
     | `AppId` | String | Azure 门户中的应用程序 ID |
     | `GraphScopes` | 数组 | 两个字符串值`User.Read` ：和`Calendars.Read` |
@@ -21,6 +21,11 @@
 
 ### <a name="configure-project-for-msal"></a>为 MSAL 配置项目
 
+1. 将新的密钥链组添加到项目的功能中。
+    1. 依次选择 " **GraphTutorial** " 项目、"**签名 & 功能**"。
+    1. 选择 " **+ 功能**"，然后双击 "**密钥链共享**"。
+    1. 添加具有值`com.microsoft.adalcache`的密钥链组。
+
 1. 控件单击 " **plist** "，然后选择 "**打开方式**"，然后选择 "**源代码**"。
 1. 在`<dict>`元素内添加以下项。
 
@@ -34,6 +39,7 @@
         </array>
       </dict>
     </array>
+    <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>msauthv2</string>
         <string>msauthv3</string>
@@ -66,8 +72,11 @@
     ```Swift
     import Foundation
     import MSAL
+    import MSGraphClientSDK
 
-    class AuthenticationManager {
+    // Implement the MSAuthenticationProvider interface so
+    // this class can be used as an auth provider for the Graph SDK
+    class AuthenticationManager: NSObject, MSAuthenticationProvider {
 
         // Implement singleton pattern
         static let instance = AuthenticationManager()
@@ -76,7 +85,7 @@
         private let appId: String
         private let graphScopes: Array<String>
 
-        private init() {
+        private override init() {
             // Get app ID and scopes from AuthSettings.plist
             let bundle = Bundle.main
             let authConfigPath = bundle.path(forResource: "AuthSettings", ofType: "plist")!
@@ -87,21 +96,25 @@
 
             do {
                 // Create the MSAL client
-                try self.publicClient = MSALPublicClientApplication(clientId: self.appId,
-                                                                    keychainGroup: bundle.bundleIdentifier)
+                try self.publicClient = MSALPublicClientApplication(clientId: self.appId)
             } catch {
                 print("Error creating MSAL public client: \(error)")
                 self.publicClient = nil
             }
         }
 
-        public func getPublicClient() -> MSALPublicClientApplication? {
-            return self.publicClient
+        // Required function for the MSAuthenticationProvider interface
+        func getAccessToken(for authProviderOptions: MSAuthenticationProviderOptions!, andCompletion completion: ((String?, Error?) -> Void)!) {
+            getTokenSilently(completion: completion)
         }
 
-        public func getTokenInteractively(completion: @escaping(_ accessToken: String?, Error?) -> Void) {
+        public func getTokenInteractively(parentView: UIViewController, completion: @escaping(_ accessToken: String?, Error?) -> Void) {
+            let webParameters = MSALWebviewParameters(parentViewController: parentView)
+            let interactiveParameters = MSALInteractiveTokenParameters(scopes: self.graphScopes,
+                                                                       webviewParameters: webParameters)
+
             // Call acquireToken to open a browser so the user can sign in
-            publicClient?.acquireToken(forScopes: self.graphScopes, completionBlock: {
+            publicClient?.acquireToken(with: interactiveParameters, completionBlock: {
                 (result: MSALResult?, error: Error?) in
                 guard let tokenResult = result, error == nil else {
                     print("Error getting token interactively: \(String(describing: error))")
@@ -126,7 +139,8 @@
 
             if (userAccount != nil) {
                 // Attempt to get token silently
-                publicClient?.acquireTokenSilent(forScopes: self.graphScopes, account: userAccount!, completionBlock: {
+                let silentParameters = MSALSilentTokenParameters(scopes: self.graphScopes, account: userAccount!)
+                publicClient?.acquireTokenSilent(with: silentParameters, completionBlock: {
                     (result: MSALResult?, error: Error?) in
                     guard let tokenResult = result, error == nil else {
                         print("Error getting token silently: \(String(describing: error))")
@@ -140,7 +154,7 @@
             } else {
                 print("No account in cache")
                 completion(nil, NSError(domain: "AuthenticationManager",
-                                        code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil))
+                                        code: MSALError.interactionRequired.rawValue, userInfo: nil))
             }
         }
 
@@ -201,7 +215,7 @@
             spinner.start(container: self)
 
             // Do an interactive sign in
-            AuthenticationManager.instance.getTokenInteractively {
+            AuthenticationManager.instance.getTokenInteractively(parentView: self) {
                 (token: String?, error: Error?) in
 
                 DispatchQueue.main.async {
@@ -246,16 +260,6 @@
 
 在本节中，您将创建一个帮助程序类，以保存对 Microsoft Graph 的所有调用并`WelcomeViewController`更新，以使用此新类获取已登录的用户。
 
-1. 打开**authenticationmanager.java** ，并将以下函数添加到`AuthenticationManager`类中。
-
-    ```Swift
-    public func getGraphAuthProvider() -> MSALAuthenticationProvider? {
-        // Create an MSAL auth provider for use with the Graph client
-        return MSALAuthenticationProvider(publicClientApplication: self.publicClient,
-                                          andScopes: self.graphScopes)
-    }
-    ```
-
 1. 在名为**GraphManager**的**GraphTutorial**项目中创建一个新的**Swift 文件**。 将以下代码添加到文件中。
 
     ```Swift
@@ -271,7 +275,7 @@
         private let client: MSHTTPClient?
 
         private init() {
-            client = MSClientFactory.createHTTPClient(with: AuthenticationManager.instance.getGraphAuthProvider())
+            client = MSClientFactory.createHTTPClient(with: AuthenticationManager.instance)
         }
 
         public func getMe(completion: @escaping(MSGraphUser?, Error?) -> Void) {
