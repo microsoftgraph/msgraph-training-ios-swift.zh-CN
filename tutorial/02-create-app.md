@@ -30,7 +30,7 @@
 1. 打开 Podfile，并在行的`use_frameworks!`后面添加以下行。
 
     ```Ruby
-    pod 'MSAL', '~> 1.0.2'
+    pod 'MSAL', '~> 1.1.1'
     pod 'MSGraphClientSDK', ' ~> 1.0.0'
     pod 'MSGraphClientModels', '~> 1.3.0'
     ```
@@ -85,16 +85,18 @@
 
     ![Xcode 中库的屏幕截图](./images/add-button-to-view.png)
 
-1. 选择该按钮后，选择 "**属性" 检查器**， **** 并将按钮的标题`Sign In`更改为。
+1. 选择该按钮后，选择 "**属性" 检查器**， **Title**并将按钮的标题`Sign In`更改为。
 
     ![Xcode 中的 "属性" 检查器中 "标题" 字段的屏幕截图](./images/set-button-title.png)
+
+1. 选择该按钮后，选择情节提要底部的 "**对齐**" 按钮。 同时选择 "**容器中的水平**" 和 "**在容器**约束中垂直"，将它们的值保留为0，然后选择 "**添加2个约束**"。
+
+    ![Xcode 中的对齐约束设置的屏幕截图](./images/add-alignment-constraints.png)
 
 1. 选择 "**登录视图控制器**"，然后选择 "**连接检查器**"。
 1. 在 "**接收的操作**" 下，将 "**登录**" 旁边的未填充圆圈拖到按钮上。 在弹出菜单上选择 "**向上触摸**"。
 
     ![将登录操作拖到 Xcode 中的按钮的屏幕截图](./images/connect-sign-in-button.png)
-
-1. 在**编辑器**菜单上，选择 "**解决自动布局问题**"，然后**在 "登录视图控制器" 中选择 "在所有视图的**下方**添加缺少的约束**"。
 
 ### <a name="create-tab-bar"></a>创建选项卡栏
 
@@ -156,13 +158,6 @@
     - 一个**图像视图**
     - 两个**标签**
     - 一个**按钮**
-
-1. 选择 "图像" 视图，然后选择 "**大小" 检查器**。
-1. 将 "**宽度**" 和 "**高度**" 设置为196。
-1. 选择第二个标签，然后选择 "**属性" 检查器**。
-1. 将**颜色**更改为**深灰色**的颜色，并将**字体**更改为**系统 12.0**。
-1. 选择该按钮，然后选择 "**属性" 检查器**。
-1. 将 "**标题**" `Sign Out`更改为。
 1. 使用 "**连接检查器**" 进行以下连接。
 
     - 将**userDisplayName**插座链接到第一个标签。
@@ -170,8 +165,40 @@
     - 将**userProfilePhoto**插座链接到图像视图。
     - 将**signOut**接收的操作链接到按钮的**内部**。
 
+1. 选择 "图像" 视图，然后选择 "**大小" 检查器**。
+1. 将 "**宽度**" 和 "**高度**" 设置为196。
+1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
+1. 使用 "**添加新约束**" 按钮（在 "**对齐**" 按钮旁边）添加以下约束：
+
+    - 顶端对齐：安全区域，值：0
+    - 底部空间：用户显示名称、值：标准
+    - Height，value：196
+    - Width，value：196
+
+    ![Xcode 中新约束设置的屏幕截图](./images/add-new-constraints.png)
+
+1. 选择第一个标签，然后使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
+1. 使用 "**添加新约束**" 按钮添加以下约束：
+
+    - 顶部空间：用户个人资料照片，值：标准
+    - 底部空间：用户电子邮件，值：标准
+
+1. 选择第二个标签，然后选择 "**属性" 检查器**。
+1. 将**颜色**更改为**深灰色**的颜色，并将**字体**更改为**系统 12.0**。
+1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
+1. 使用 "**添加新约束**" 按钮添加以下约束：
+
+    - 顶部间距：用户显示名称、值：标准
+    - 底部空间：注销，值：14
+
+1. 选择该按钮，然后选择 "**属性" 检查器**。
+1. 将 "**标题**" `Sign Out`更改为。
+1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
+1. 使用 "**添加新约束**" 按钮添加以下约束：
+
+    - 主要空间：用户电子邮件，值：14
+
 1. 选择场景底部的 "选项卡栏" 项，然后选择 "**属性" 检查器**。 将 "**标题**" `Me`更改为。
-1. 在**编辑器**菜单上，选择 "**解决自动布局问题**"，然后选择 **"欢迎视图控制器中的所有视图"** 下的 "**添加缺少约束**"。
 
 完成后，欢迎场景应如下所示。
 
@@ -203,9 +230,9 @@
 
 1. 打开 "**情节提要**"。 选择 "**项目2场景**"，然后选择 "**标识检查器**"。 将 "**类**" 值更改为**CalendarViewController**。
 1. 使用**库**向**项目2场景**添加**文本视图**。
-1. 选择您刚添加的文本视图。 在**编辑器**中，依次选择 "**嵌入入**" 和 "**滚动视图**"。
+1. 选择您刚添加的文本视图。 在**编辑器**菜单上，依次选择 "**嵌入入**" 和 "**滚动视图**"。
 1. 使用 "**连接" 检查器**，将**calendarJSON**插座连接到文本视图。
-1. 1. 选择场景底部的 "选项卡栏" 项，然后选择 "**属性" 检查器**。 将 "**标题**" `Calendar`更改为。
+1. 选择场景底部的 "选项卡栏" 项，然后选择 "**属性" 检查器**。 将 "**标题**" `Calendar`更改为。
 1. 在**编辑器**菜单上，选择 "**解决自动布局问题**"，然后选择 **"欢迎视图控制器中的所有视图"** 下的 "**添加缺少约束**"。
 
 完成后，日历场景应如下所示。
@@ -217,39 +244,7 @@
 1. 在名为`SpinnerViewController`的**GraphTutorial**文件夹中创建一个新的**Cocoa Touch 类**文件。 在字段的 "**子类**" 中选择 " **UIViewController** "。
 1. 打开**SpinnerViewController** ，并将其内容替换为以下代码。
 
-    ```Swift
-    import UIKit
-
-    class SpinnerViewController: UIViewController {
-
-        var spinner = UIActivityIndicatorView(style: .whiteLarge)
-
-        override func loadView() {
-            view = UIView()
-            view.backgroundColor = UIColor(white: 0, alpha: 0.7)
-
-            spinner.translatesAutoresizingMaskIntoConstraints = false
-            spinner.startAnimating()
-            view.addSubview(spinner)
-
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        }
-
-        public func start(container: UIViewController) {
-            container.addChild(self)
-            self.view.frame = container.view.frame
-            container.view.addSubview(self.view)
-            self.didMove(toParent: container)
-        }
-
-        public func stop() {
-            self.willMove(toParent: nil)
-            self.view.removeFromSuperview()
-            self.removeFromParent()
-        }
-    }
-    ```
+    :::code language="swift" source="../demo/GraphTutorial/GraphTutorial/SpinnerViewController.swift" id="SpinnerSnippet":::
 
 ## <a name="test-the-app"></a>测试应用程序
 
