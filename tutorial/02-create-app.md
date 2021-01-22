@@ -1,60 +1,60 @@
 <!-- markdownlint-disable MD002 MD041 -->
 
-首先创建一个新的 Swift 项目。
+首先创建新的 Swift 项目。
 
-1. 打开 Xcode。 在 "**文件**" 菜单上，依次选择 "**新建**"、"**项目**"。
-1. 选择 "**单个视图应用程序**" 模板，然后选择 "**下一步**"。
+1. 打开 Xcode。 在"**文件"** 菜单上，**选择"新建"，** 然后选择"**项目"。**
+1. 选择应用 **模板**，然后选择"下 **一步"。**
 
-    ![Xcode 模板选择对话框的屏幕截图](./images/xcode-select-template.png)
+    ![Xcode 模板选择对话框的屏幕截图](images/xcode-select-template.png)
 
-1. 将 "**产品名称**" `GraphTutorial`和 "要快速的**语言**" 设置为**Swift**。
-1. 填写其余字段，然后选择 "**下一步**"。
-1. 选择项目的位置并选择 "**创建**"。
+1. 将 **产品名称设置为** `GraphTutorial` ，将 **语言设置为** **Swift。**
+1. 填写其余字段，然后选择"下 **一步"。**
+1. 选择项目的位置，然后选择"创建 **"。**
 
 ## <a name="install-dependencies"></a>安装依赖项
 
-在继续之前，请安装稍后将使用的一些其他依赖项。
+在继续之前，请安装一些稍后将使用的其他依赖项。
 
-- 适用于[iOS 的 Microsoft 身份验证库（MSAL）](https://github.com/AzureAD/microsoft-authentication-library-for-objc) ，用于向 Azure AD 进行身份验证。
-- [Microsoft GRAPH SDK For 客观 C](https://github.com/microsoftgraph/msgraph-sdk-objc) ，用于调用 Microsoft graph。
-- [Microsoft Graph 模型 SDK （针对目标 C](https://github.com/microsoftgraph/msgraph-sdk-objc-models) ）对于强类型的对象，表示 Microsoft Graph 资源，如用户或事件。
+- [Microsoft 身份验证库 (MSAL) for iOS，](https://github.com/AzureAD/microsoft-authentication-library-for-objc) 用于使用 Azure AD 进行身份验证。
+- [用于调用 Microsoft](https://github.com/microsoftgraph/msgraph-sdk-objc) Graph 的目标 C 的 Microsoft Graph SDK。
+- [用于表示 Microsoft Graph](https://github.com/microsoftgraph/msgraph-sdk-objc-models) 资源（如用户或事件）的强类型对象的目标 C 的 Microsoft Graph 模型 SDK。
 
 1. 退出 Xcode。
-1. 打开 "终端" 并将目录更改为**GraphTutorial**项目的位置。
+1. 打开终端，将目录更改为 **GraphTu一l** 项目的位置。
 1. 运行以下命令以创建 Podfile。
 
     ```Shell
     pod init
     ```
 
-1. 打开 Podfile，并在行的`use_frameworks!`后面添加以下行。
+1. 打开 Podfile，并添加行后的以下 `use_frameworks!` 行。
 
     ```Ruby
-    pod 'MSAL', '~> 1.1.1'
+    pod 'MSAL', '~> 1.1.13'
     pod 'MSGraphClientSDK', ' ~> 1.0.0'
     pod 'MSGraphClientModels', '~> 1.3.0'
     ```
 
-1. 保存 Podfile，然后运行以下命令来安装依赖项。
+1. 保存 Podfile，然后运行以下命令以安装依赖项。
 
     ```Shell
     pod install
     ```
 
-1. 命令完成后，在 Xcode 中打开新创建的**GraphTutorial graph-ios-swift-connect.xcworkspace** 。
+1. 命令完成后，在 Xcode 中打开新建 **的 GraphTu一l.xcworkspace。**
 
-## <a name="design-the-app"></a>设计应用程序
+## <a name="design-the-app"></a>设计应用
 
-在本节中，您将为应用程序创建视图：登录页面、选项卡栏导航器、欢迎页面和日历页面。 您还将创建活动指示器覆盖。
+在此部分中，你将为应用创建视图：登录页、选项卡栏导航器、欢迎页面和日历页。 你还将创建活动指示器覆盖。
 
 ### <a name="create-sign-in-page"></a>创建登录页
 
-1. 展开 Xcode 中的 " **GraphTutorial** " 文件夹，然后选择**viewcontroller.m**。
-1. 在**文件检查器**中，将文件的**名称**更改为`SignInViewController.swift`。
+1. 在 **Xcode 中展开 GraphTu一l** 文件夹，然后选择 **ViewController.swift。**
+1. 在 **文件检查器** 中 **，将文件** 的名称更改为 `SignInViewController.swift` 。
 
-    ![文件检查器的屏幕截图](./images/rename-file.png)
+    ![文件检查器屏幕截图](images/rename-file.png)
 
-1. 打开**SignInViewController** ，并将其内容替换为以下代码。
+1. 打开 **SignInViewController.swift，** 并将其内容替换为以下代码。
 
     ```Swift
     import UIKit
@@ -72,59 +72,58 @@
     }
     ```
 
-1. 打开 " **storyboard** " 文件。
-1. 展开 "**查看控制器场景**"，然后选择 "**查看控制器**"。
+1. 打开 **Main.storyboard**。 展开 **"视图控制器场景**"，然后选择 **"视图控制器"。**
 
-    ![选定了视图控制器的 Xcode 的屏幕截图](./images/storyboard-select-view-controller.png)
+    ![选中视图控制器的 Xcode 屏幕截图](images/storyboard-select-view-controller.png)
 
-1. 选择 "**标识" 检查器**，然后将 "**类**" 下拉列表更改为 " **SignInViewController**"。
+1. 选择 **标识检查器**，然后将 **类下拉列表更改为** **SignInViewController。**
 
-    ![标识检查器的屏幕截图](./images/change-class.png)
+    ![标识检查器屏幕截图](images/change-class.png)
 
-1. 选择**库**，然后将**按钮**拖到 "**登录视图" 控制器**上。
+1. 选择 **库**，然后将 **按钮** 拖动到 **登录视图控制器上**。
 
-    ![Xcode 中库的屏幕截图](./images/add-button-to-view.png)
+    ![Xcode 中的库屏幕截图](images/add-button-to-view.png)
 
-1. 选择该按钮后，选择 "**属性" 检查器**， **Title**并将按钮的标题`Sign In`更改为。
+1. 选中按钮后，选择 **属性检查** 器， **将按钮的标题** 更改为 `Sign In` 。
 
-    ![Xcode 中的 "属性" 检查器中 "标题" 字段的屏幕截图](./images/set-button-title.png)
+    ![Xcode 中属性检查器中标题字段的屏幕截图](images/set-button-title.png)
 
-1. 选择该按钮后，选择情节提要底部的 "**对齐**" 按钮。 同时选择 "**容器中的水平**" 和 "**在容器**约束中垂直"，将它们的值保留为0，然后选择 "**添加2个约束**"。
+1. 选中按钮后 **，选择情节** 提要底部的"对齐"按钮。 在容器中 **选择"水平"** 和"垂直"容器约束，将其值保留为 0，然后选择"添加 **2 个约束"。**
 
-    ![Xcode 中的对齐约束设置的屏幕截图](./images/add-alignment-constraints.png)
+    ![Xcode 中的对齐约束设置的屏幕截图](images/add-alignment-constraints.png)
 
-1. 选择 "**登录视图控制器**"，然后选择 "**连接检查器**"。
-1. 在 "**接收的操作**" 下，将 "**登录**" 旁边的未填充圆圈拖到按钮上。 在弹出菜单上选择 "**向上触摸**"。
+1. 选择 **登录视图控制器**，然后选择连接 **检查器**。
+1. 在 **"已** 接收操作"下，将未填充的圆圈拖到 **按钮的"登录** "旁边。 在 **弹出菜单上** 选择"内部触摸"。
 
-    ![将登录操作拖到 Xcode 中的按钮的屏幕截图](./images/connect-sign-in-button.png)
+    ![将 signIn 操作拖动到 Xcode 中的按钮的屏幕截图](images/connect-sign-in-button.png)
 
 ### <a name="create-tab-bar"></a>创建选项卡栏
 
-1. 选择**库**，然后将**选项卡栏控制器**拖到情节提要上。
-1. 选择 "**登录视图控制器**"，然后选择 "**连接检查器**"。
-1. 在 "已**触发 Segues**" 下，将 "**手动**" 旁边的未填充圆圈拖到情节提要上的**选项卡栏控制器**上。 在弹出菜单中选择 "**模式显示**"。
+1. 选择 **库**，然后将 **选项卡栏控制器** 拖动到情节提要上。
+1. 选择 **登录视图控制器**，然后选择连接 **检查器**。
+1. 在 **"触发的 Segues"** 下，将手动旁的未填充圆圈拖到情节提要上的 **选项卡** 栏控制器上。 在 **弹出菜单中** 选择"以模式方式显示"。
 
-    ![将手动 segue 拖动到 Xcode 中新选项卡栏控制器中的屏幕截图](./images/add-segue.png)
+    ![在 Xcode 中将手动标签拖动到新选项卡栏控制器的屏幕截图](images/add-segue.png)
 
-1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedIn`**设置为，** 并将 "**演示文稿**" 设置为全屏。
+1. 选择刚添加的 segue，然后选择 **属性检查器**。 将 **"标识符"** 字段设置为 `userSignedIn` ，将 **"演示文稿"** 设置为 **"全屏"。**
 
-    ![Xcode 中的 "属性" 检查器中的 "标识符" 字段的屏幕截图](./images/set-segue-identifier.png)
+    ![Xcode 中属性检查器中"标识符"字段的屏幕截图](images/set-segue-identifier.png)
 
-1. 选择 "**项目1场景**"，然后选择 "**连接检查器**"。
-1. 在 "已**触发 Segues**" 下，将 "**手动**" 旁边的未填充圆圈拖到情节提要上的 "**登录视图控制器" 中**。 在弹出菜单中选择 "**模式显示**"。
-1. 选择您刚刚添加的 segue，然后选择 "**属性" 检查器**。 将 "**标识符**" 字段`userSignedOut`**设置为，** 并将 "**演示文稿**" 设置为全屏。
+1. 选择 **项目 1 场景**，然后选择连接 **检查器**。
+1. 在 **"触发的 Segues"** 下，将手动旁的未填充圆圈拖到情节提要上的登录 **视图** 控制器上。 在 **弹出菜单中** 选择"以模式方式显示"。
+1. 选择刚添加的 segue，然后选择 **属性检查器**。 将 **"标识符"** 字段设置为 `userSignedOut` ，将 **"演示文稿"** 设置为 **"全屏"。**
 
 ### <a name="create-welcome-page"></a>创建欢迎页面
 
-1. 选择 " **xcassets** " 文件。
-1. 在**编辑器**菜单上，选择 "**添加资源**"，然后选择 "**新建图像集**"。
-1. 选择新**图像**资产，并使用 "**属性" 检查器**将其**名称**设置为`DefaultUserPhoto`。
-1. 添加您希望用作默认用户配置文件照片的任何图像。
+1. 选择 **Assets.xcassets** 文件。
+1. 在编辑器 **菜单** 上，**选择"添加新资产"，** 然后选择 **"图像集"。**
+1. 选择新的 **Image** 资源并使用 **属性检查** 器将其 **名称设置为** `DefaultUserPhoto` 。
+1. 添加要用作默认用户配置文件照片的任何图像。
 
-    ![图像在 Xcode 中设置资产视图的屏幕截图](./images/add-default-user-photo.png)
+    ![Xcode 中图像集资产视图的屏幕截图](images/add-default-user-photo.png)
 
-1. 在名为`WelcomeViewController`的**GraphTutorial**文件夹中创建一个新的**Cocoa Touch 类**文件。 在字段的 "**子类**" 中选择 " **UIViewController** "。
-1. 打开**WelcomeViewController** ，并将其内容替换为以下代码。
+1. 在 **GraphTu一** l 文件夹中 **新建一** 个名为 Cocoa Touch 类的文件 `WelcomeViewController` 。 在 **字段的子类中选择 UIViewController。** 
+1. 打开 **WelcomeViewController.swift，** 并将其内容替换为以下代码。
 
     ```Swift
     import UIKit
@@ -152,62 +151,62 @@
     }
     ```
 
-1. 打开 "**情节提要**"。 选择 "**项目1场景**"，然后选择 "**标识检查器**"。 将 "**类**" 值更改为**WelcomeViewController**。
-1. 使用**库**将以下项添加到**Item 1 场景**中。
+1. 打开 **Main.storyboard**。 选择 **项目 1 场景**，然后选择 **标识检查器**。 将 **类** 值更改为 **WelcomeViewController**。
+1. 使用 **库，** 将以下项添加到项目 **1 场景**。
 
-    - 一个**图像视图**
-    - 两个**标签**
-    - 一个**按钮**
-1. 使用 "**连接检查器**" 进行以下连接。
+    - 一 **个图像视图**
+    - 两 **个标签**
+    - 一 **个按钮**
+1. 使用连接 **检查器** 进行以下连接。
 
-    - 将**userDisplayName**插座链接到第一个标签。
-    - 将**userEmail**插座链接到第二个标签。
-    - 将**userProfilePhoto**插座链接到图像视图。
-    - 将**signOut**接收的操作链接到按钮的**内部**。
+    - 将 **userDisplayName** 出口链接到第一个标签。
+    - 将 **userEmail 出口** 链接到第二个标签。
+    - 将 **userProfilePhoto** 出口链接到图像视图。
+    - 将 **signOut** 接收的操作链接到按钮的 **"内部触摸"。**
 
-1. 选择 "图像" 视图，然后选择 "**大小" 检查器**。
-1. 将 "**宽度**" 和 "**高度**" 设置为196。
-1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
-1. 使用 "**添加新约束**" 按钮（在 "**对齐**" 按钮旁边）添加以下约束：
+1. 选择图像视图，然后选择大小 **检查器**。
+1. 将 **Width** 和 **Height** 设置为 196。
+1. 使用 **"对齐**"按钮可添加值为 0 的"水平"容器约束。
+1. 使用 **"对齐" (** 旁边的"添加新约束"按钮) 添加以下约束：
 
-    - 顶端对齐：安全区域，值：0
-    - 底部空间：用户显示名称、值：标准
-    - Height，value：196
-    - Width，value：196
+    - 顶部对齐：安全区域，值：0
+    - 底部空间：用户显示名称、值：Standard
+    - 高度，值：196
+    - 宽度，值：196
 
     ![Xcode 中新约束设置的屏幕截图](./images/add-new-constraints.png)
 
-1. 选择第一个标签，然后使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
-1. 使用 "**添加新约束**" 按钮添加以下约束：
+1. 选择第一个标签，然后使用 **"对齐** "按钮添加值为 0 的 **"水平"** 容器约束。
+1. 使用 **"添加新约束"** 按钮可添加以下约束：
 
-    - 顶部空间：用户个人资料照片，值：标准
+    - 顶部空间：用户配置文件照片，值：标准
     - 底部空间：用户电子邮件，值：标准
 
-1. 选择第二个标签，然后选择 "**属性" 检查器**。
-1. 将**颜色**更改为**深灰色**的颜色，并将**字体**更改为**系统 12.0**。
-1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
-1. 使用 "**添加新约束**" 按钮添加以下约束：
+1. 选择第二个标签，然后选择 **属性检查器**。
+1. 将颜色 **更改为****深灰色**，将 **字体更改为****系统 12.0。**
+1. 使用 **"对齐** "按钮添加值为 0 的 **"** 水平"容器约束。
+1. 使用 **"添加新约束"** 按钮可添加以下约束：
 
-    - 顶部间距：用户显示名称、值：标准
+    - 顶部空间：用户显示名称、值：Standard
     - 底部空间：注销，值：14
 
-1. 选择该按钮，然后选择 "**属性" 检查器**。
-1. 将 "**标题**" `Sign Out`更改为。
-1. 使用 "**对齐**" 按钮**在容器约束中**添加值为0的水平。
-1. 使用 "**添加新约束**" 按钮添加以下约束：
+1. 选择该按钮，然后选择 **属性检查器**。
+1. 将 **标题更改为** `Sign Out` 。
+1. 使用 **"对齐**"按钮可添加值为 0 的"水平"容器约束。
+1. 使用 **"添加新约束"** 按钮可添加以下约束：
 
-    - 主要空间：用户电子邮件，值：14
+    - 顶部空间：用户电子邮件，值：14
 
-1. 选择场景底部的 "选项卡栏" 项，然后选择 "**属性" 检查器**。 将 "**标题**" `Me`更改为。
+1. 选择场景底部的选项卡栏项，然后选择 **属性检查器**。 将 **标题更改为** `Me` 。
 
-完成后，欢迎场景应如下所示。
+完成后，欢迎场景应类似于此场景。
 
-![欢迎场景布局的屏幕截图](./images/welcome-scene-layout.png)
+![欢迎场景布局的屏幕截图](images/welcome-scene-layout.png)
 
 ### <a name="create-calendar-page"></a>创建日历页
 
-1. 在名为`CalendarViewController`的**GraphTutorial**文件夹中创建一个新的**Cocoa Touch 类**文件。 在字段的 "**子类**" 中选择 " **UIViewController** "。
-1. 打开**CalendarViewController** ，并将其内容替换为以下代码。
+1. 在 **GraphTu一** l 文件夹中 **新建一** 个名为 Cocoa Touch 类的文件 `CalendarViewController` 。 在 **字段的子类中选择 UIViewController。** 
+1. 打开 **CalendarViewController.swift，** 并将其内容替换为以下代码。
 
     ```Swift
     import UIKit
@@ -228,26 +227,27 @@
     }
     ```
 
-1. 打开 "**情节提要**"。 选择 "**项目2场景**"，然后选择 "**标识检查器**"。 将 "**类**" 值更改为**CalendarViewController**。
-1. 使用**库**向**项目2场景**添加**文本视图**。
-1. 选择您刚添加的文本视图。 在**编辑器**菜单上，依次选择 "**嵌入入**" 和 "**滚动视图**"。
-1. 使用 "**连接" 检查器**，将**calendarJSON**插座连接到文本视图。
-1. 选择场景底部的 "选项卡栏" 项，然后选择 "**属性" 检查器**。 将 "**标题**" `Calendar`更改为。
-1. 在**编辑器**菜单上，选择 "**解决自动布局问题**"，然后选择 **"欢迎视图控制器中的所有视图"** 下的 "**添加缺少约束**"。
+1. 打开 **Main.storyboard**。 选择 **项目 2 场景**，然后选择 **标识检查器**。 将 **类** 值更改为 **CalendarViewController**。
+1. 使用库 **，** 将 **文本视图添加到****项目 2 场景**。
+1. 选择刚刚添加的文本视图。 在编辑器 **菜单** 上，选择 **"嵌入"，** 然后选择 **"滚动视图"。**
+1. 调整滚动视图和文本视图的大小以使用整个屏幕。
+1. 使用连接 **检查器**，将 **calendarJSON** 出口连接到文本视图。
+1. 选择场景底部的选项卡栏项，然后选择 **属性检查器**。 将 **标题更改为** `Calendar` 。
+1. 在 **编辑器菜单** 上，选择 **"解决自动布局** 问题"，然后选择"在日历视图控制器的所有视图下方添加缺少 **的约束"。**
 
-完成后，日历场景应如下所示。
+完成后，日历场景看起来应该与此类似。
 
-![日历场景布局的屏幕截图](./images/calendar-scene-layout.png)
+![日历场景布局的屏幕截图](images/calendar-scene-layout.png)
 
 ### <a name="create-activity-indicator"></a>创建活动指示器
 
-1. 在名为`SpinnerViewController`的**GraphTutorial**文件夹中创建一个新的**Cocoa Touch 类**文件。 在字段的 "**子类**" 中选择 " **UIViewController** "。
-1. 打开**SpinnerViewController** ，并将其内容替换为以下代码。
+1. 在 **GraphTu一** l 文件夹中 **新建一** 个名为 Cocoa Touch 类的文件 `SpinnerViewController` 。 在 **字段的子类中选择 UIViewController。** 
+1. 打开 **SpinnerViewController.swift，** 并将其内容替换为以下代码。
 
     :::code language="swift" source="../demo/GraphTutorial/GraphTutorial/SpinnerViewController.swift" id="SpinnerSnippet":::
 
 ## <a name="test-the-app"></a>测试应用程序
 
-保存所做的更改并启动应用程序。 您应该能够使用 "**登录**" 和 "**注销**" 按钮和选项卡栏在屏幕之间移动。
+保存更改并启动应用。 你应该能够使用"登录"和"注销 **"按钮和** 选项卡栏在屏幕之间移动。
 
-![应用程序的屏幕截图](./images/app-screens.png)
+![应用程序的屏幕截图](images/app-screens.png)
